@@ -16,8 +16,15 @@
 }
 
 .footer {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.link {
+  margin-right: 10px;
 }

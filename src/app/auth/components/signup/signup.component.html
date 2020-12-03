@@ -20,9 +20,13 @@
     </mat-form-field>
 
     <app-validation-message [isShown]="frm.submitted && form.errors?.mustMatch">Passwords doesn't match</app-validation-message>
+    <app-validation-message [isShown]="!!serverError">{{ serverError?.message }}</app-validation-message>
 
     <div class="footer">
-      <button type="submit" mat-raised-button color="primary">Sign Up!</button>
+      <div class="flex-row">
+        <a mat-button [routerLink]="['..', 'signin']" class="link">Go to sign in</a>
+        <button [disabled]="isSending" type="submit" mat-raised-button color="primary">Sign Up!</button>
+      </div>
     </div>
   </form>
 </mat-card>

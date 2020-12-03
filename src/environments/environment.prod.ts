@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  indexedDBName: 'britanica'
+  indexedDBName: 'britanica',
+  indexedDBVersion: 1,
 };

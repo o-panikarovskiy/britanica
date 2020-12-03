@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  indexedDBName: 'britanica'
+  indexedDBName: 'britanica',
+  indexedDBVersion: 1,
 };
 
 /*

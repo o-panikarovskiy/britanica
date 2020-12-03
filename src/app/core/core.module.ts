@@ -1,14 +1,20 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { AuthGuard } from 'src/app/core/auth/guards/auth-guard.guard';
-import { AuthApiService } from 'src/app/core/auth/models/auth-api';
-import { authApiFactory } from 'src/app/core/auth/services/auth-api.factory';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { SessionStrategy } from 'src/app/core/backend/abstract-session.stategy';
+import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
+import { AuthController } from 'src/app/core/backend/auth.controller';
+import { SessionCookieStrategy } from 'src/app/core/backend/session-cookie.strategy';
+import { AuthGuard } from 'src/app/core/guards/auth-guard.guard';
+import { AuthApiService } from 'src/app/core/services/auth-api.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { usersServiceFactory } from 'src/app/core/utils/users-service.factory';
 
 @NgModule({
   providers: [
     AuthGuard, //
     AuthService,
-    { provide: AuthApiService, useFactory: authApiFactory },
+    { provide: AuthApiService, useClass: AuthController },
+    { provide: SessionStrategy, useClass: SessionCookieStrategy },
+    { provide: UsersRepository, useFactory: usersServiceFactory },
   ],
   imports: [],
   exports: [],
