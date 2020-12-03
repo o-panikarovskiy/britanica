@@ -5,7 +5,7 @@ import { UsersRepository } from 'src/app/core/backend/abstract-users.repository'
 import { comparePassword, DBUser, toClientUser } from 'src/app/core/backend/db-user';
 import { AppError } from 'src/app/core/models/app-error';
 import { SignInResponse, SignUpResponse } from 'src/app/core/models/signup';
-import { AuthApiService } from 'src/app/core/services/auth-api.service';
+import { AuthApiService } from 'src/app/core/services/abstract-auth-api.service';
 
 @Injectable()
 export class BackendMockAuthController extends AuthApiService {
@@ -17,7 +17,7 @@ export class BackendMockAuthController extends AuthApiService {
   }
 
   checkSession(): Observable<boolean> {
-    return from(this.checkSessionFlow());
+    return from(this.sessionStrategy.check());
   }
 
   signIn(username: string, password: string): Observable<SignInResponse> {
@@ -30,14 +30,6 @@ export class BackendMockAuthController extends AuthApiService {
 
   logout(): Observable<void> {
     return from(this.sessionStrategy.destroy());
-  }
-
-  private async checkSessionFlow(): Promise<boolean> {
-    const sid = await this.sessionStrategy.get();
-    if (!sid) return false;
-
-    const user = await this.usersRep.findById(sid);
-    return !!user;
   }
 
   private async signInFlow(username: string, password: string): Promise<SignInResponse> {

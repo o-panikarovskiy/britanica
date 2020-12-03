@@ -25,7 +25,7 @@ export class SignupComponent {
     );
   }
 
-  submit() {
+  submit(): void {
     if (this.form.invalid) {
       return;
     }

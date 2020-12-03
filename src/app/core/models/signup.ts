@@ -1,18 +1,18 @@
 import { User } from 'src/app/core/models/user';
 
 export type SignInRequest = {
-  username: string;
-  password: string;
+  readonly username: string;
+  readonly password: string;
 };
 
 export type SignUpRequest = {
-  email: string;
-  password: string;
+  readonly email: string;
+  readonly password: string;
 };
 
 export type SignUpResponse = {
-  sid: string;
-  user: User;
+  readonly sid: string;
+  readonly user: User;
 };
 
 export type SignInResponse = SignUpResponse;

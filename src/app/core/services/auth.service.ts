@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SignInRequest, SignUpRequest } from 'src/app/core/models/signup';
-import { AuthApiService } from 'src/app/core/services/auth-api.service';
+import { SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from 'src/app/core/models/signup';
+import { AuthApiService } from 'src/app/core/services/abstract-auth-api.service';
 
 @Injectable()
 export class AuthService {
@@ -12,27 +12,27 @@ export class AuthService {
     return this.api.checkSession();
   }
 
-  signUp(req: SignUpRequest) {
+  signUp(req: SignUpRequest): Observable<SignUpResponse> {
     return this.api.signUp(req.email, req.password);
   }
 
-  signIn(req: SignInRequest) {
+  signIn(req: SignInRequest): Observable<SignInResponse> {
     return this.api.signIn(req.username, req.password);
   }
 
-  logout() {
+  logout(): Observable<void> {
     return this.api.logout();
   }
 
-  goToPageAfterLogin() {
+  goToPageAfterLogin(): Promise<boolean> {
     return this.router.navigateByUrl('/');
   }
 
-  goToSignIn() {
+  goToSignIn(): Promise<boolean> {
     return this.router.navigateByUrl('auth/signin');
   }
 
-  goToSignUp() {
+  goToSignUp(): Promise<boolean> {
     return this.router.navigateByUrl('auth/signup');
   }
 }

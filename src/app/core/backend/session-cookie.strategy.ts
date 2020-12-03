@@ -1,4 +1,6 @@
+import { Injectable } from '@angular/core';
 import { SessionStrategy } from 'src/app/core/backend/abstract-session.stategy';
+import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
 
 type StringAny = { [key: string]: any };
 
@@ -7,7 +9,12 @@ type CookieOptions = StringAny & {
   expires?: Date | string;
 };
 
+@Injectable()
 export class SessionCookieStrategy extends SessionStrategy {
+  constructor(userRep: UsersRepository) {
+    super(userRep);
+  }
+
   async save(userId: string): Promise<void> {
     this.setCookie('britanica', userId, { 'max-age': 3600 });
   }
@@ -16,7 +23,7 @@ export class SessionCookieStrategy extends SessionStrategy {
     return this.getCookie('britanica');
   }
 
-  async destroy() {
+  async destroy(): Promise<void> {
     this.setCookie('britanica', '', { 'max-age': -1 });
   }
 
@@ -44,7 +51,10 @@ export class SessionCookieStrategy extends SessionStrategy {
   }
 
   private getCookie(name: string) {
-    let matches = window.document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+    const matches = window.document.cookie.match(
+      // eslint-disable-next-line no-useless-escape
+      new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'),
+    );
     return matches ? window.decodeURIComponent(matches[1]) : undefined;
   }
 }

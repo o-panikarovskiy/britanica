@@ -1,4 +1,4 @@
-export function getRandomString(length: number) {
+export function getRandomString(length: number): string {
   return ab2str(crypto.getRandomValues(new Uint16Array(length)));
 }
 
@@ -6,7 +6,7 @@ export function ab2str(buf: ArrayBuffer): string {
   return String.fromCharCode.apply(null, (new Uint16Array(buf) as unknown) as number[]);
 }
 
-export function str2ab(str: string) {
+export function str2ab(str: string): ArrayBuffer {
   const length = str.length;
   const buf = new ArrayBuffer(length * 2); // 2 bytes for each char
   const bufView = new Uint16Array(buf);
@@ -16,14 +16,14 @@ export function str2ab(str: string) {
   return buf;
 }
 
-export async function sha256(message: string) {
+export async function sha256(message: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
   const hash = await crypto.subtle.digest('SHA-256', data);
   return ab2str(hash);
 }
 
-export function createGuid() {
+export function createGuid(): string {
   const buf = new Uint16Array(8);
   crypto.getRandomValues(buf);
   return `${s4(buf[0])}${s4(buf[1])}-${s4(buf[2])}-${s4(buf[3])}-${s4(buf[4])}-${s4(buf[5])}${s4(buf[6])}${s4(buf[7])}`;

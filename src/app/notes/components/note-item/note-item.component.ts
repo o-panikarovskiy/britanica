@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-note-item',
   templateUrl: './note-item.component.html',
-  styleUrls: ['./note-item.component.scss']
+  styleUrls: ['./note-item.component.scss'],
 })
-export class NoteItemComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class NoteItemComponent {}

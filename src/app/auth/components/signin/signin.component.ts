@@ -20,7 +20,7 @@ export class SigninComponent {
     });
   }
 
-  submit() {
+  submit(): void {
     if (this.form.invalid) {
       return;
     }

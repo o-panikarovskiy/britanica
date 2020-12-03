@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class UserIconComponent {
   constructor(private readonly authService: AuthService) {}
 
-  logout() {
+  logout(): void {
     this.authService.logout().subscribe(() => this.authService.goToSignIn());
   }
 }
