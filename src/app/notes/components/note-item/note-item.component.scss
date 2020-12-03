@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  width: 250px;
+  height: 250px;
+  border: 1px solid #ccc;
+  margin: 20px;
+  position: relative;
+}
+
+@media (max-width: 663px) {
+  :host {
+    width: 100%;
+  }
+}
+
+.title {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  height: 18px;
+  max-width: calc(100% - 15px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
