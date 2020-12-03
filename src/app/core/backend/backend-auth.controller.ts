@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { SessionStrategy } from 'src/app/core/backend/abstract-session.stategy';
 import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
-import { DBUser } from 'src/app/core/backend/db-user';
+import { comparePassword, DBUser, toClientUser } from 'src/app/core/backend/db-user';
 import { AppError } from 'src/app/core/models/app-error';
 import { SignInResponse, SignUpResponse } from 'src/app/core/models/signup';
-import { User } from 'src/app/core/models/user';
 import { AuthApiService } from 'src/app/core/services/auth-api.service';
 
 @Injectable()
-export class AuthController extends AuthApiService {
+export class BackendMockAuthController extends AuthApiService {
   constructor(
     private readonly usersRep: UsersRepository, //
     private readonly sessionStrategy: SessionStrategy,
@@ -33,37 +32,36 @@ export class AuthController extends AuthApiService {
     const sid = await this.sessionStrategy.retriveSessionId();
     if (!sid) return false;
 
-    const user = await this.usersRep.findUserById(sid);
+    const user = await this.usersRep.findById(sid);
     return !!user;
   }
 
   private async signInFlow(username: string, password: string): Promise<SignInResponse> {
-    const dbUser = await this.usersRep.findUserByEmail(username);
-    if (!dbUser || dbUser.password !== password) {
-      throw new AppError('Invalid username or password.', 'AuthError');
-    }
+    const err = new AppError('Invalid username or password.', 'AuthError');
 
-    const sid = await this.createSession(dbUser);
-    return { sid, user: this.toClientUser(dbUser) };
+    const user = await this.usersRep.findByEmail(username);
+    if (!user) throw err;
+
+    const isEquals = await comparePassword(user, password);
+    if (!isEquals) throw err;
+
+    const sid = await this.createSession(user);
+    return { sid, user: toClientUser(user) };
   }
 
   private async signUpFlow(email: string, password: string): Promise<SignUpResponse> {
-    const exUser = await this.usersRep.findUserByEmail(email);
+    const exUser = await this.usersRep.findByEmail(email);
     if (exUser) {
       throw new AppError('User already exists.', 'UserAlreadyExists');
     }
 
-    const dbUser = await this.usersRep.createUser(email, password);
-    const sid = await this.createSession(dbUser);
-    return { sid, user: this.toClientUser(dbUser) };
-  }
-
-  private toClientUser(dbUser: DBUser): User {
-    return { email: dbUser.email, id: dbUser.id };
+    const user = await this.usersRep.add(email, password);
+    const sid = await this.createSession(user);
+    return { sid, user: toClientUser(user) };
   }
 
   private async createSession(user: DBUser) {
-    const sid = user.id;
+    const sid = user.ID;
     await this.sessionStrategy.saveSession(sid);
     return sid;
   }

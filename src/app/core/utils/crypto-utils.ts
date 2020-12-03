@@ -16,6 +16,13 @@ export function str2ab(str: string) {
   return buf;
 }
 
+export async function sha256(message: string) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return ab2str(hash);
+}
+
 export function createGuid() {
   const buf = new Uint16Array(8);
   crypto.getRandomValues(buf);
