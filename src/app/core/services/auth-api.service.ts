@@ -5,4 +5,5 @@ export abstract class AuthApiService {
   abstract checkSession(): Observable<boolean>;
   abstract signIn(username: string, password: string): Observable<SignInResponse>;
   abstract signUp(email: string, password: string): Observable<SignUpResponse>;
+  abstract logout(): Observable<void>;
 }

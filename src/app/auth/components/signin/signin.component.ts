@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AppError } from 'src/app/core/models/app-error';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -14,10 +13,7 @@ export class SigninComponent {
   public isSending = false;
   public serverError: AppError | undefined;
 
-  constructor(
-    private readonly router: Router, //
-    private readonly authService: AuthService,
-  ) {
+  constructor(private readonly authService: AuthService) {
     this.form = new FormGroup({
       username: new FormControl(void 0, [Validators.required]),
       password: new FormControl(void 0, [Validators.required]),
@@ -36,7 +32,7 @@ export class SigninComponent {
       .signIn(this.form.value)
       .subscribe(
         () => {
-          this.router.navigateByUrl('/');
+          this.authService.goToPageAfterLogin();
         },
         (err: AppError) => {
           this.serverError = err;

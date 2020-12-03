@@ -28,8 +28,12 @@ export class BackendMockAuthController extends AuthApiService {
     return from(this.signUpFlow(email, password));
   }
 
+  logout(): Observable<void> {
+    return from(this.sessionStrategy.destroy());
+  }
+
   private async checkSessionFlow(): Promise<boolean> {
-    const sid = await this.sessionStrategy.retriveSessionId();
+    const sid = await this.sessionStrategy.get();
     if (!sid) return false;
 
     const user = await this.usersRep.findById(sid);
@@ -62,7 +66,7 @@ export class BackendMockAuthController extends AuthApiService {
 
   private async createSession(user: DBUser) {
     const sid = user.ID;
-    await this.sessionStrategy.saveSession(sid);
+    await this.sessionStrategy.save(sid);
     return sid;
   }
 }

@@ -1,0 +1,9 @@
+<mat-icon [matMenuTriggerFor]="menu" class="icon">account_circle</mat-icon>
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon aria-hidden="false">logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </ng-template>
+</mat-menu>

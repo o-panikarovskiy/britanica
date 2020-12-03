@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { mustMatch } from 'src/app/auth/validators/must-match';
 import { AppError } from 'src/app/core/models/app-error';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -15,10 +14,7 @@ export class SignupComponent {
   public isSending = false;
   public serverError: AppError | undefined;
 
-  constructor(
-    private readonly router: Router, //
-    private readonly authService: AuthService,
-  ) {
+  constructor(private readonly authService: AuthService) {
     this.form = new FormGroup(
       {
         email: new FormControl(void 0, [Validators.required, Validators.email]),
@@ -41,7 +37,7 @@ export class SignupComponent {
       .signUp(this.form.value)
       .subscribe(
         () => {
-          this.router.navigateByUrl('/');
+          this.authService.goToPageAfterLogin();
         },
         (err: AppError) => {
           this.serverError = err;

@@ -8,12 +8,16 @@ type CookieOptions = StringAny & {
 };
 
 export class SessionCookieStrategy extends SessionStrategy {
-  async saveSession(userId: string): Promise<void> {
+  async save(userId: string): Promise<void> {
     this.setCookie('britanica', userId, { 'max-age': 3600 });
   }
 
-  async retriveSessionId(): Promise<string | undefined> {
+  async get(): Promise<string | undefined> {
     return this.getCookie('britanica');
+  }
+
+  async destroy() {
+    this.setCookie('britanica', '', { 'max-age': -1 });
   }
 
   private setCookie(name: string, value: string, options?: CookieOptions) {
