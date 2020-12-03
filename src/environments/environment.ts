@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   indexedDBName: 'britanica',
   indexedDBVersion: 1,
+  sessionMaxAge: 3600,
 };
 
 /*

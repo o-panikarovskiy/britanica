@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { NotesApiService } from 'src/app/core/services/abstract-notes-api.service';
+import { Component, Input } from '@angular/core';
+import { Note } from 'src/app/core/models/note';
 
 @Component({
   selector: 'app-notes-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
-  constructor(private readonly notes: NotesApiService) {}
+export class ListComponent {
+  @Input() notes: readonly Note[] = [];
 
-  ngOnInit(): void {
-    this.notes.list().subscribe((list) => {
-      console.log(list);
-    });
+  constructor() {}
+
+  identify(_index: number, note: Note): string {
+    return note.id;
   }
 }

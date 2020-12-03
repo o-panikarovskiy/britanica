@@ -2,13 +2,13 @@
   <form [formGroup]="form" #frm="ngForm" (submit)="submit()" novalidate class="form">
     <mat-form-field class="full-w">
       <mat-label>Username</mat-label>
-      <input formControlName="username" matInput />
+      <input formControlName="username" matInput maxlength="1024" />
       <mat-error *ngIf="frm.submitted && form.get('username')?.hasError('required')">Username is required</mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-w">
       <mat-label>Password</mat-label>
-      <input formControlName="password" matInput type="password" autocomplete="new-password" />
+      <input formControlName="password" matInput type="password" autocomplete="new-password" maxlength="1024" />
       <mat-error *ngIf="frm.submitted && form.get('password')?.hasError('required')">Password is required</mat-error>
     </mat-form-field>
 

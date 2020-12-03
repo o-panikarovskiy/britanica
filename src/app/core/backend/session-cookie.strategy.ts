@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SessionStrategy } from 'src/app/core/backend/abstract-session.stategy';
 import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
+import { environment } from 'src/environments/environment';
 
 type StringAny = { [key: string]: any };
 
@@ -11,12 +12,14 @@ type CookieOptions = StringAny & {
 
 @Injectable()
 export class SessionCookieStrategy extends SessionStrategy {
+  private readonly env = environment;
+
   constructor(userRep: UsersRepository) {
     super(userRep);
   }
 
   async save(userId: string): Promise<void> {
-    this.setCookie('britanica', userId, { 'max-age': 3600 });
+    this.setCookie('britanica', userId, { 'max-age': this.env.sessionMaxAge });
   }
 
   async get(): Promise<string | undefined> {

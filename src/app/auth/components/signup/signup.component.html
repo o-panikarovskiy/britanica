@@ -2,20 +2,20 @@
   <form [formGroup]="form" #frm="ngForm" (submit)="submit()" novalidate class="form">
     <mat-form-field class="full-w">
       <mat-label>Email</mat-label>
-      <input formControlName="email" matInput type="email" />
+      <input formControlName="email" matInput type="email" maxlength="1024" />
       <mat-error *ngIf="frm.submitted && form.get('email')?.hasError('required')">Email is required</mat-error>
       <mat-error *ngIf="frm.submitted && form.get('email')?.hasError('email')">Email is not valid</mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-w">
       <mat-label>Password</mat-label>
-      <input formControlName="password" matInput type="password" autocomplete="new-password" />
+      <input formControlName="password" matInput type="password" autocomplete="new-password" maxlength="1024" />
       <mat-error *ngIf="frm.submitted && form.get('password')?.hasError('required')">Password is required</mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-w">
       <mat-label>Confirm Password</mat-label>
-      <input formControlName="passwordVerify" matInput type="password" autocomplete="new-password" />
+      <input formControlName="passwordVerify" matInput type="password" autocomplete="new-password" maxlength="1024" />
       <mat-error *ngIf="frm.submitted && form.get('passwordVerify')?.hasError('required')">Plase, confirm password</mat-error>
     </mat-form-field>
 
