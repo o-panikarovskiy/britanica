@@ -14,7 +14,7 @@ export class SessionCookieStrategy extends SessionStrategy {
   private readonly env = environment;
 
   async save(data?: any): Promise<void> {
-    this.setCookie('britanica', 'secretEncryptedValue', { 'max-age': this.env.sessionMaxAge });
+    this.setCookie('britannica', 'secretEncryptedValue', { 'max-age': this.env.sessionMaxAge });
   }
 
   async check(data?: any): Promise<boolean> {
@@ -23,11 +23,11 @@ export class SessionCookieStrategy extends SessionStrategy {
   }
 
   async get(): Promise<string | undefined> {
-    return this.getCookie('britanica');
+    return this.getCookie('britannica');
   }
 
   async destroy(): Promise<void> {
-    this.setCookie('britanica', '', { 'max-age': -1 });
+    this.setCookie('britannica', '', { 'max-age': -1 });
   }
 
   private setCookie(name: string, value: string, options?: CookieOptions) {
