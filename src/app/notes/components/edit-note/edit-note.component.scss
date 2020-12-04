@@ -23,6 +23,18 @@
   width: 100%;
 }
 
+.title {
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.author {
+  color: #3f51b5;
+  text-decoration: underline;
+}
+
 .label {
   display: block;
   color: rgba(0, 0, 0, 0.54);

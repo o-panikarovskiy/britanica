@@ -1,5 +1,10 @@
 <form [formGroup]="form" #frm="ngForm" (submit)="submit()" novalidate class="form" class="content">
-  <h1 mat-dialog-title>{{ data?.id ? 'Edit Note' : 'Post a new Note' }}</h1>
+  <h1 mat-dialog-title class="title" [ngSwitch]="!!data?.id">
+    <ng-container *ngSwitchCase="true">
+      A Note from <span class="author">{{ data?.author }}</span>
+    </ng-container>
+    <ng-container *ngSwitchCase="false"> Post a new Note</ng-container>
+  </h1>
   <div mat-dialog-content>
     <label class="label">
       Author Name
@@ -11,7 +16,7 @@
 
     <label class="label">
       What you like to say?
-      <textarea formControlName="text"  maxlength="4096" class="full-w text"></textarea>
+      <textarea formControlName="text" maxlength="4096" class="full-w text"></textarea>
     </label>
     <app-validation-message [isShown]="frm.submitted && !!form.get('text')?.hasError('required')">
       Note text is required
