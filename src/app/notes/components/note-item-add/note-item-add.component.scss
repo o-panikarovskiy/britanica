@@ -4,11 +4,12 @@
   height: 250px;
   border: 1px solid #ccc;
   margin: 20px;
+  padding: 20px;
   position: relative;
   cursor: pointer;
 }
 
-@media (max-width: 663px) {
+@media (max-width: 743px) {
   :host {
     width: 100%;
   }

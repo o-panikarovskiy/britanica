@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
-import { createDBUser, DBUser } from 'src/app/core/backend/db-user';
+import { UsersRepository } from 'src/app/core/abstract/users.repository';
+import { createDBUser, DBUser } from 'src/app/core/backend/db/db-user';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -9,12 +9,12 @@ export class UsersLocalStorageRepository extends UsersRepository {
 
   async findById(id: string): Promise<DBUser | undefined> {
     const users = this.getList();
-    return users.find((u) => u.ID === id);
+    return users.find((u) => u.id === id);
   }
 
   async findByEmail(email: string): Promise<DBUser | undefined> {
     const users = this.getList();
-    return users.find((u) => u.Email === email);
+    return users.find((u) => u.email === email);
   }
 
   async add(email: string, password: string): Promise<DBUser> {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
-import { createDBUser, DBUser } from 'src/app/core/backend/db-user';
-import { openOrCreateDB } from 'src/app/core/backend/indexed-db';
+import { UsersRepository } from 'src/app/core/abstract/users.repository';
+import { openOrCreateDB } from 'src/app/core/backend/db/db';
+import { createDBUser, DBUser } from 'src/app/core/backend/db/db-user';
 import { environment } from 'src/environments/environment';
 
 @Injectable()

@@ -7,11 +7,10 @@ export async function openOrCreateDB(): Promise<IDBDatabase> {
     openReq.onupgradeneeded = (e: any) => {
       const db = e.target.result;
 
-      const users = db.createObjectStore('users', { keyPath: 'ID' });
-      users.createIndex('email', 'Email', { unique: true });
+      const users = db.createObjectStore('users', { keyPath: 'id' });
+      users.createIndex('email', 'email', { unique: true });
 
-      const notes = db.createObjectStore('notes', { keyPath: 'id' });
-      notes.createIndex('creatorId', 'creatorId', { unique: false });
+      db.createObjectStore('notes', { keyPath: 'id' });
     };
 
     openReq.onerror = reject;

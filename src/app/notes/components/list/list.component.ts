@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Note } from 'src/app/core/models/note';
+import { NotesStoreService } from 'src/app/notes/services/notes-store.service';
 
 @Component({
   selector: 'app-notes-list',
@@ -7,9 +9,11 @@ import { Note } from 'src/app/core/models/note';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent {
-  @Input() notes: readonly Note[] = [];
+  public readonly notes$: Observable<readonly Note[]>;
 
-  constructor() {}
+  constructor(private readonly store: NotesStoreService) {
+    this.notes$ = this.store.sortedList$;
+  }
 
   identify(_index: number, note: Note): string {
     return note.id;

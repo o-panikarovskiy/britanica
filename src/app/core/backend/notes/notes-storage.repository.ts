@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NotesRepository } from 'src/app/core/backend/abstract-notes.repository';
+import { NotesRepository } from 'src/app/core/abstract/notes.repository';
 import { Note } from 'src/app/core/models/note';
 import { IStringTMap, PickRequired } from 'src/app/core/models/types';
 import { createGuid } from 'src/app/core/utils/crypto-utils';
@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class NotesStoreageRepository extends NotesRepository {
   private readonly env = environment;
 
-  async list(): Promise<readonly Note[]> {
+  async list(): Promise<Note[]> {
     const map = this.getMap();
     return Object.values(map);
   }

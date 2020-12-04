@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { SessionStrategy } from 'src/app/core/backend/abstract-session.stategy';
-import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
-import { comparePassword, DBUser, toClientUser } from 'src/app/core/backend/db-user';
+import { AuthApiService } from 'src/app/core/abstract/auth-api.service';
+import { SessionStrategy } from 'src/app/core/abstract/session.stategy';
+import { UsersRepository } from 'src/app/core/abstract/users.repository';
+import { comparePassword, DBUser, toClientUser } from 'src/app/core/backend/db/db-user';
 import { AppError } from 'src/app/core/models/app-error';
 import { SignInResponse, SignUpResponse } from 'src/app/core/models/signup';
-import { AuthApiService } from 'src/app/core/services/abstract-auth-api.service';
 
 @Injectable()
 export class BackendMockAuthController extends AuthApiService {
@@ -57,7 +57,7 @@ export class BackendMockAuthController extends AuthApiService {
   }
 
   private async createSession(user: DBUser) {
-    const sid = user.ID;
+    const sid = user.id;
     await this.sessionStrategy.save(sid);
     return sid;
   }

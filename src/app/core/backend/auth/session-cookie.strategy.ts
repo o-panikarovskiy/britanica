@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SessionStrategy } from 'src/app/core/backend/abstract-session.stategy';
-import { UsersRepository } from 'src/app/core/backend/abstract-users.repository';
+import { SessionStrategy } from 'src/app/core/abstract/session.stategy';
 import { environment } from 'src/environments/environment';
 
 type StringAny = { [key: string]: any };
@@ -14,12 +13,13 @@ type CookieOptions = StringAny & {
 export class SessionCookieStrategy extends SessionStrategy {
   private readonly env = environment;
 
-  constructor(userRep: UsersRepository) {
-    super(userRep);
+  async save(data?: any): Promise<void> {
+    this.setCookie('britanica', 'secretEncryptedValue', { 'max-age': this.env.sessionMaxAge });
   }
 
-  async save(userId: string): Promise<void> {
-    this.setCookie('britanica', userId, { 'max-age': this.env.sessionMaxAge });
+  async check(data?: any): Promise<boolean> {
+    const value = await this.get();
+    return value === 'secretEncryptedValue';
   }
 
   async get(): Promise<string | undefined> {

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EditNoteComponent } from './edit-note.component';
+import { DeleteNoteComponent } from './del-note.component';
 
 
-describe('EditNoteComponent', () => {
-  let component: EditNoteComponent;
-  let fixture: ComponentFixture<EditNoteComponent>;
+describe('DeleteNoteComponent', () => {
+  let component: DeleteNoteComponent;
+  let fixture: ComponentFixture<DeleteNoteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditNoteComponent ]
+      declarations: [ DeleteNoteComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditNoteComponent);
+    fixture = TestBed.createComponent(DeleteNoteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

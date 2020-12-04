@@ -15,4 +15,8 @@ export class NoteItemComponent {
   edit(): void {
     this.dm.showEditNote(this.note);
   }
+
+  remove(): void {
+    this.dm.showDeleteNote(this.note);
+  }
 }

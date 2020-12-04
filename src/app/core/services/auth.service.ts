@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthApiService } from 'src/app/core/abstract/auth-api.service';
 import { SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from 'src/app/core/models/signup';
-import { AuthApiService } from 'src/app/core/services/abstract-auth-api.service';
 
 @Injectable()
 export class AuthService {

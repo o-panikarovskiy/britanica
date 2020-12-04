@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { NotesRepository } from 'src/app/core/backend/abstract-notes.repository';
-import { SessionStrategy } from 'src/app/core/backend/abstract-session.stategy';
+import { NotesApiService } from 'src/app/core/abstract/notes-api.service';
+import { NotesRepository } from 'src/app/core/abstract/notes.repository';
+import { SessionStrategy } from 'src/app/core/abstract/session.stategy';
 import { AppError } from 'src/app/core/models/app-error';
 import { Note } from 'src/app/core/models/note';
 import { PickRequired } from 'src/app/core/models/types';
-import { NotesApiService } from 'src/app/core/services/abstract-notes-api.service';
 
 @Injectable()
 export class BackendMockNotesController extends NotesApiService {
@@ -16,7 +16,7 @@ export class BackendMockNotesController extends NotesApiService {
     super();
   }
 
-  list(): Observable<readonly Note[]> {
+  list(): Observable<Note[]> {
     return from(
       (async () => {
         await this.assertSession();
@@ -34,7 +34,7 @@ export class BackendMockNotesController extends NotesApiService {
     );
   }
 
-  update(note: PickRequired<Note, 'id'>): Observable<Note> {
+  update(note: PickRequired<Note, 'id'>): Observable<Note | undefined> {
     return from(
       (async () => {
         await this.assertSession();
@@ -43,7 +43,7 @@ export class BackendMockNotesController extends NotesApiService {
     );
   }
 
-  delete(id: string): Observable<Note> {
+  delete(id: string): Observable<Note | undefined> {
     return from(
       (async () => {
         await this.assertSession();

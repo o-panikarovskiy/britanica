@@ -9,7 +9,7 @@ module.exports = {
       },
       extends: ['plugin:@angular-eslint/recommended'],
       rules: {
-        '@typescript-eslint/explicit-module-boundary-types': ['error'],
+        '@typescript-eslint/explicit-module-boundary-types': false,
       },
     },
     {

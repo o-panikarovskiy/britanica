@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppError } from 'src/app/core/models/app-error';
 import { Note } from 'src/app/core/models/note';
-import { NotesApiService } from 'src/app/core/services/abstract-notes-api.service';
+import { NotesStoreService } from 'src/app/notes/services/notes-store.service';
 
 @Component({
   templateUrl: './edit-note.component.html',
@@ -18,15 +18,18 @@ export class EditNoteComponent implements OnInit {
   });
 
   constructor(
-    private readonly api: NotesApiService, //
-    @Inject(MAT_DIALOG_DATA) public data: Note,
+    private readonly store: NotesStoreService, //
+    private dialogRef: MatDialogRef<EditNoteComponent>,
+    @Inject(MAT_DIALOG_DATA) public data?: Note,
   ) {}
 
-  ngOnInit(): void {
-    this.form.patchValue(this.data || {});
+  ngOnInit() {
+    if (this.data) {
+      this.form.patchValue(this.data);
+    }
   }
 
-  submit(): void {
+  submit() {
     if (this.form.invalid) {
       return;
     }
@@ -34,8 +37,16 @@ export class EditNoteComponent implements OnInit {
     this.isSending = true;
     this.serverError = void 0;
 
-    const note: Note = this.data ? { ...this.data, ...this.form.value } : { ...this.form.value, created: new Date() };
+    const note: Note = this.data
+      ? { ...this.data, ...this.form.value } //
+      : { ...this.form.value, created: new Date() };
 
-    console.log(note);
+    this.store
+      .save(note)
+      .subscribe(
+        (note) => this.dialogRef.close(note),
+        (err: AppError) => (this.serverError = err),
+      )
+      .add(() => (this.isSending = false));
   }
 }

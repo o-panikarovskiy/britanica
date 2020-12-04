@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NotesRepository } from 'src/app/core/backend/abstract-notes.repository';
-import { openOrCreateDB } from 'src/app/core/backend/indexed-db';
+import { NotesRepository } from 'src/app/core/abstract/notes.repository';
+import { openOrCreateDB } from 'src/app/core/backend/db/db';
 import { Note } from 'src/app/core/models/note';
 import { PickRequired } from 'src/app/core/models/types';
 import { createGuid } from 'src/app/core/utils/crypto-utils';
@@ -12,7 +12,7 @@ type NoteWithDB = { db: IDBDatabase; note: Note | undefined };
 export class NotesIndexedDBRepository extends NotesRepository {
   private readonly env = environment;
 
-  async list(): Promise<readonly Note[]> {
+  async list(): Promise<Note[]> {
     const db = await openOrCreateDB();
 
     return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ export class NotesIndexedDBRepository extends NotesRepository {
     const newNote = { ...oldNote, ...note };
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(['notes'], 'readwrite');
-      transaction.objectStore('notes').add(newNote);
+      transaction.objectStore('notes').put(newNote);
       transaction.onerror = reject;
       transaction.oncomplete = () => resolve(newNote);
     });

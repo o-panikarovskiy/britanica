@@ -1,2 +1,3 @@
 <p class="author">{{ note.author }}</p>
-<p class="text" (click)="edit()">{{ note.text }}</p>
+<p class="text" (click)="edit()">{{ note.text | trim: 420 }}</p>
+<mat-icon aria-hidden="false" class="del" (click)="remove()">delete</mat-icon>

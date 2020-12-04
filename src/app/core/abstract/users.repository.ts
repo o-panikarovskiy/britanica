@@ -1,4 +1,4 @@
-import { DBUser } from 'src/app/core/backend/db-user';
+import { DBUser } from 'src/app/core/backend/db/db-user';
 
 export abstract class UsersRepository {
   abstract async findById(id: string): Promise<DBUser | undefined>;
