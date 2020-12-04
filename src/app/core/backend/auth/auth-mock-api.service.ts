@@ -8,7 +8,7 @@ import { AppError } from 'src/app/core/models/app-error';
 import { SignInResponse, SignUpResponse } from 'src/app/core/models/signup';
 
 @Injectable()
-export class BackendMockAuthController extends AuthApiService {
+export class AuthMockApiService extends AuthApiService {
   constructor(
     private readonly usersRep: UsersRepository, //
     private readonly sessionStrategy: SessionStrategy,

@@ -8,7 +8,7 @@ import { Note } from 'src/app/core/models/note';
 import { PickRequired } from 'src/app/core/models/types';
 
 @Injectable()
-export class BackendMockNotesController extends NotesApiService {
+export class NotesMockApiService extends NotesApiService {
   constructor(
     private readonly notesRep: NotesRepository, //
     private readonly sessionStrategy: SessionStrategy,
