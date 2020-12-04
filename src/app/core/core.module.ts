@@ -9,8 +9,8 @@ import { SessionCookieStrategy } from 'src/app/core/backend/auth/session-cookie.
 import { BackendMockNotesController } from 'src/app/core/backend/notes/notes.controller';
 import { AuthGuard } from 'src/app/core/guards/auth-guard.guard';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { notesRepositoryFactory } from 'src/app/core/utils/notes-repository.factory';
-import { usersRepositoryFactory } from 'src/app/core/utils/users-repository.factory';
+import { notesRepositoryFactory } from 'src/app/core/services/notes-repository.factory';
+import { usersRepositoryFactory } from 'src/app/core/services/users-repository.factory';
 
 @NgModule({
   providers: [

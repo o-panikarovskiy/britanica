@@ -11,7 +11,7 @@ export class NotesStoreageRepository extends NotesRepository {
 
   async list(): Promise<Note[]> {
     const map = this.getMap();
-    return Object.values(map);
+    return Object.values(map).map((n) => ({ ...n, created: new Date(n.created) }));
   }
 
   async create(note: Omit<Note, 'id'>): Promise<Note> {

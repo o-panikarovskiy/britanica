@@ -1,23 +1,28 @@
 <form [formGroup]="form" #frm="ngForm" (submit)="submit()" novalidate class="form" class="content">
   <h1 mat-dialog-title>{{ data?.id ? 'Edit Note' : 'Post a new Note' }}</h1>
   <div mat-dialog-content>
-    <mat-form-field class="full-w">
-      <mat-label>Author Name</mat-label>
-      <input formControlName="author" matInput maxlength="1024" />
-      <mat-error *ngIf="frm.submitted && form.get('author')?.hasError('required')">Author name is required</mat-error>
-    </mat-form-field>
+    <label class="label">
+      Author Name
+      <input formControlName="author" maxlength="1024" class="full-w input" />
+    </label>
+    <app-validation-message [isShown]="frm.submitted && !!form.get('author')?.hasError('required')">
+      Author name is required
+    </app-validation-message>
 
-    <mat-label>What you like to say?</mat-label>
-    <textarea formControlName="text" rows="15" maxlength="4096" class="full-w text"></textarea>
-    <mat-error *ngIf="frm.submitted && form.get('text')?.hasError('required')">This field is required</mat-error>
-
+    <label class="label">
+      What you like to say?
+      <textarea formControlName="text"  maxlength="4096" class="full-w text"></textarea>
+    </label>
+    <app-validation-message [isShown]="frm.submitted && !!form.get('text')?.hasError('required')">
+      Note text is required
+    </app-validation-message>
     <app-validation-message [isShown]="!!serverError">{{ serverError?.message }}</app-validation-message>
   </div>
 
   <div mat-dialog-actions class="footer">
     <div class="flex-row">
       <button mat-button type="button" mat-dialog-close>Cancel</button>
-      <button mat-button type="submit" [disabled]="isSending" color="primary" cdkFocusInitial>{{data?.id ? 'Save' : 'Post'}}</button>
+      <button mat-button type="submit" [disabled]="isSending" color="primary" cdkFocusInitial>{{ data?.id ? 'Save' : 'Post' }}</button>
     </div>
   </div>
 </form>

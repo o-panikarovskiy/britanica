@@ -1,6 +1,12 @@
 :host {
   display: block;
-  min-width: 420px;
+  width: 520px;
+}
+
+@media (max-width: 520px) {
+  :host {
+    width: auto;
+  }
 }
 
 .footer {
@@ -17,8 +23,23 @@
   width: 100%;
 }
 
+.label {
+  display: block;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.input {
+  font-family: Arial, Helvetica, sans-serif;
+  height: 32px;
+  line-height: 32px;
+}
+
 .text {
+  font-family: Arial, Helvetica, sans-serif;
   overflow: auto;
   width: 100%;
+  min-height: 200px;
   resize: none;
+  line-height: 24px;
+  border-color: rgba(0, 0, 0, 0.54);
 }

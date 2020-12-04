@@ -6,7 +6,7 @@
 
 <div mat-dialog-actions class="footer">
   <div class="flex-row">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [disabled]="isSending" (click)="remove()" color="primary" cdkFocusInitial>Delete</button>
+    <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+    <button mat-button [disabled]="isSending" (click)="remove()" color="primary">Delete</button>
   </div>
 </div>
