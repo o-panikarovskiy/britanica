@@ -16,23 +16,23 @@ export class AuthMockApiService extends AuthApiService {
     super();
   }
 
-  checkSession(): Observable<boolean> {
+  checkSession = (): Observable<boolean> => {
     return from(this.sessionStrategy.check());
-  }
+  };
 
-  signIn(username: string, password: string): Observable<SignInResponse> {
+  signIn = (username: string, password: string): Observable<SignInResponse> => {
     return from(this.signInFlow(username, password));
-  }
+  };
 
-  signUp(email: string, password: string): Observable<SignUpResponse> {
+  signUp = (email: string, password: string): Observable<SignUpResponse> => {
     return from(this.signUpFlow(email, password));
-  }
+  };
 
-  logout(): Observable<void> {
+  logout = (): Observable<void> => {
     return from(this.sessionStrategy.destroy());
-  }
+  };
 
-  private async signInFlow(username: string, password: string): Promise<SignInResponse> {
+  private signInFlow = async (username: string, password: string): Promise<SignInResponse> => {
     const err = new AppError('Invalid username or password.', 'AuthError');
 
     const user = await this.usersRep.findByEmail(username);
@@ -43,9 +43,9 @@ export class AuthMockApiService extends AuthApiService {
 
     const sid = await this.createSession(user);
     return { sid, user: toClientUser(user) };
-  }
+  };
 
-  private async signUpFlow(email: string, password: string): Promise<SignUpResponse> {
+  private signUpFlow = async (email: string, password: string): Promise<SignUpResponse> => {
     const exUser = await this.usersRep.findByEmail(email);
     if (exUser) {
       throw new AppError('User already exists.', 'UserAlreadyExists');
@@ -54,11 +54,11 @@ export class AuthMockApiService extends AuthApiService {
     const user = await this.usersRep.add(email, password);
     const sid = await this.createSession(user);
     return { sid, user: toClientUser(user) };
-  }
+  };
 
-  private async createSession(user: DBUser) {
+  private createSession = async (user: DBUser) => {
     const sid = user.id;
     await this.sessionStrategy.save(sid);
     return sid;
-  }
+  };
 }

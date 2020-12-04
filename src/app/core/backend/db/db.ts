@@ -1,3 +1,4 @@
+import { AppError } from 'src/app/core/models/app-error';
 import { environment } from 'src/environments/environment';
 
 export async function openOrCreateDB(): Promise<IDBDatabase> {
@@ -13,7 +14,7 @@ export async function openOrCreateDB(): Promise<IDBDatabase> {
       db.createObjectStore('notes', { keyPath: 'id' });
     };
 
-    openReq.onerror = (e: any) => reject(e?.target?.error);
+    openReq.onerror = (e: any) => reject(new AppError(e?.target?.error, 'DBError'));
     openReq.onsuccess = (e: any) => resolve(e?.target?.result);
   });
 }

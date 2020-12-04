@@ -9,18 +9,18 @@ import { environment } from 'src/environments/environment';
 export class NotesStoreageRepository extends NotesRepository {
   private readonly env = environment;
 
-  async list(): Promise<Note[]> {
+  list = async (): Promise<Note[]> => {
     const map = this.getMap();
     return Object.values(map).map((n) => ({ ...n, created: new Date(n.created) }));
-  }
+  };
 
-  async create(note: Omit<Note, 'id'>): Promise<Note> {
+  create = async (note: Omit<Note, 'id'>): Promise<Note> => {
     const newNote: Note = { ...note, id: createGuid() };
     this.addToMap(newNote);
     return newNote;
-  }
+  };
 
-  async update(note: PickRequired<Note, 'id'>): Promise<Note | undefined> {
+  update = async (note: PickRequired<Note, 'id'>): Promise<Note | undefined> => {
     const map = this.getMap();
     const oldNote = map[note.id];
 
@@ -31,9 +31,9 @@ export class NotesStoreageRepository extends NotesRepository {
     this.saveMap(map);
 
     return newNote;
-  }
+  };
 
-  async delete(id: string): Promise<Note | undefined> {
+  delete = async (id: string): Promise<Note | undefined> => {
     const map = this.getMap();
 
     const oldNote = map[id];
@@ -41,9 +41,9 @@ export class NotesStoreageRepository extends NotesRepository {
 
     this.saveMap(map);
     return oldNote;
-  }
+  };
 
-  private getMap(): IStringTMap<Note> {
+  private getMap = (): IStringTMap<Note> => {
     try {
       const str = window.localStorage.getItem(this.getKeyName());
       if (!str) return {};
@@ -51,18 +51,18 @@ export class NotesStoreageRepository extends NotesRepository {
     } catch (error) {
       return {};
     }
-  }
+  };
 
-  private addToMap(note: Note) {
+  private addToMap = (note: Note) => {
     this.saveMap({ ...this.getMap(), [note.id]: note });
-  }
+  };
 
-  private saveMap(map: IStringTMap<Note>) {
+  private saveMap = (map: IStringTMap<Note>) => {
     const str = JSON.stringify(map);
     window.localStorage.setItem(this.getKeyName(), str);
-  }
+  };
 
-  private getKeyName() {
+  private getKeyName = () => {
     return `${this.env.indexedDBName}Notes`;
-  }
+  };
 }

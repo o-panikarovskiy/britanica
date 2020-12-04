@@ -13,24 +13,24 @@ type CookieOptions = StringAny & {
 export class SessionCookieStrategy extends SessionStrategy {
   private readonly env = environment;
 
-  async save(data?: any): Promise<void> {
+  save = async (): Promise<void> => {
     this.setCookie('britannica', 'secretEncryptedValue', { 'max-age': this.env.sessionMaxAge });
-  }
+  };
 
-  async check(data?: any): Promise<boolean> {
+  check = async (): Promise<boolean> => {
     const value = await this.get();
     return value === 'secretEncryptedValue';
-  }
+  };
 
-  async get(): Promise<string | undefined> {
+  get = async (): Promise<string | undefined> => {
     return this.getCookie('britannica');
-  }
+  };
 
-  async destroy(): Promise<void> {
+  destroy = async (): Promise<void> => {
     this.setCookie('britannica', '', { 'max-age': -1 });
-  }
+  };
 
-  private setCookie(name: string, value: string, options?: CookieOptions) {
+  private setCookie = (name: string, value: string, options?: CookieOptions) => {
     const opt: CookieOptions = {
       path: '/',
       ...options,
@@ -51,13 +51,13 @@ export class SessionCookieStrategy extends SessionStrategy {
     }
 
     window.document.cookie = updatedCookie;
-  }
+  };
 
-  private getCookie(name: string) {
+  private getCookie = (name: string) => {
     const matches = window.document.cookie.match(
       // eslint-disable-next-line no-useless-escape
       new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'),
     );
     return matches ? window.decodeURIComponent(matches[1]) : undefined;
-  }
+  };
 }

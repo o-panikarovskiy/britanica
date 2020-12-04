@@ -7,23 +7,23 @@ import { environment } from 'src/environments/environment';
 export class UsersLocalStorageRepository extends UsersRepository {
   private readonly env = environment;
 
-  async findById(id: string): Promise<DBUser | undefined> {
+  findById = async (id: string): Promise<DBUser | undefined> => {
     const users = this.getList();
     return users.find((u) => u.id === id);
-  }
+  };
 
-  async findByEmail(email: string): Promise<DBUser | undefined> {
+  findByEmail = async (email: string): Promise<DBUser | undefined> => {
     const users = this.getList();
     return users.find((u) => u.email === email);
-  }
+  };
 
-  async add(email: string, password: string): Promise<DBUser> {
+  add = async (email: string, password: string): Promise<DBUser> => {
     const user = await createDBUser(email, password);
     this.pushToList(user);
     return user;
-  }
+  };
 
-  private getList(): DBUser[] {
+  private getList = (): DBUser[] => {
     try {
       const str = window.localStorage.getItem(this.getKeyName());
       if (!str) return [];
@@ -31,14 +31,14 @@ export class UsersLocalStorageRepository extends UsersRepository {
     } catch (error) {
       return [];
     }
-  }
+  };
 
-  private pushToList(user: DBUser) {
+  private pushToList = (user: DBUser) => {
     const str = JSON.stringify([...this.getList(), user]);
     window.localStorage.setItem(this.getKeyName(), str);
-  }
+  };
 
-  private getKeyName() {
+  private getKeyName = () => {
     return `${this.env.indexedDBName}Users`;
-  }
+  };
 }

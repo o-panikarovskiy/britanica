@@ -17,45 +17,25 @@ export class NotesMockApiService extends NotesApiService {
   }
 
   list(): Observable<Note[]> {
-    return from(
-      (async () => {
-        await this.assertSession();
-        return await this.notesRep.list();
-      })(),
-    );
+    return from(this.assertSession().then(this.notesRep.list));
   }
 
-  create(note: Omit<Note, 'id'>): Observable<Note> {
-    return from(
-      (async () => {
-        await this.assertSession();
-        return await this.notesRep.create(note);
-      })(),
-    );
-  }
+  create = (note: Omit<Note, 'id'>): Observable<Note> => {
+    return from(this.assertSession().then(() => this.notesRep.create(note)));
+  };
 
-  update(note: PickRequired<Note, 'id'>): Observable<Note | undefined> {
-    return from(
-      (async () => {
-        await this.assertSession();
-        return await this.notesRep.update(note);
-      })(),
-    );
-  }
+  update = (note: PickRequired<Note, 'id'>): Observable<Note | undefined> => {
+    return from(this.assertSession().then(() => this.notesRep.update(note)));
+  };
 
-  delete(id: string): Observable<Note | undefined> {
-    return from(
-      (async () => {
-        await this.assertSession();
-        return await this.notesRep.delete(id);
-      })(),
-    );
-  }
+  delete = (id: string): Observable<Note | undefined> => {
+    return from(this.assertSession().then(() => this.notesRep.delete(id)));
+  };
 
-  private async assertSession() {
+  private assertSession = async () => {
     const isSessionOk = await this.sessionStrategy.check();
     if (!isSessionOk) {
       throw new AppError('Invalid session.', 'InvalidSession');
     }
-  }
+  };
 }
