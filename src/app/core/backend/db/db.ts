@@ -5,7 +5,7 @@ export async function openOrCreateDB(): Promise<IDBDatabase> {
     const openReq = window.indexedDB.open(environment.indexedDBName, environment.indexedDBVersion);
 
     openReq.onupgradeneeded = (e: any) => {
-      const db = e.target.result;
+      const db = e?.target?.result;
 
       const users = db.createObjectStore('users', { keyPath: 'id' });
       users.createIndex('email', 'email', { unique: true });
@@ -13,7 +13,7 @@ export async function openOrCreateDB(): Promise<IDBDatabase> {
       db.createObjectStore('notes', { keyPath: 'id' });
     };
 
-    openReq.onerror = reject;
-    openReq.onsuccess = (e: any) => resolve(e.target.result);
+    openReq.onerror = (e: any) => reject(e?.target?.error);
+    openReq.onsuccess = (e: any) => resolve(e?.target?.result);
   });
 }

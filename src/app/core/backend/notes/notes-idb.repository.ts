@@ -18,9 +18,9 @@ export class NotesIndexedDBRepository extends NotesRepository {
     return new Promise((resolve, reject) => {
       const req = db.transaction(['notes']).objectStore('notes').openCursor();
       const res: Note[] = [];
-      req.onerror = (err: any) => reject(err);
-      req.onsuccess = (event: any) => {
-        const cursor = event.target.result;
+      req.onerror = (e: any) => reject(e?.target?.error);
+      req.onsuccess = (e: any) => {
+        const cursor = e?.target?.result;
         if (cursor) {
           res.push(cursor.value);
           cursor.continue();
@@ -38,7 +38,7 @@ export class NotesIndexedDBRepository extends NotesRepository {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(['notes'], 'readwrite');
       transaction.objectStore('notes').add(newNote);
-      transaction.onerror = reject;
+      transaction.onerror = (e: any) => reject(e?.target?.error);
       transaction.oncomplete = () => resolve(newNote);
     });
   }
@@ -51,7 +51,7 @@ export class NotesIndexedDBRepository extends NotesRepository {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(['notes'], 'readwrite');
       transaction.objectStore('notes').put(newNote);
-      transaction.onerror = reject;
+      transaction.onerror = (e: any) => reject(e?.target?.error);
       transaction.oncomplete = () => resolve(newNote);
     });
   }
@@ -63,7 +63,7 @@ export class NotesIndexedDBRepository extends NotesRepository {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(['notes'], 'readwrite');
       transaction.objectStore('notes').delete(oldNote.id);
-      transaction.onerror = reject;
+      transaction.onerror = (e: any) => reject(e?.target?.error);
       transaction.oncomplete = () => resolve(oldNote);
     });
   }

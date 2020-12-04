@@ -11,20 +11,20 @@ export class UsersIndexedDBRepository extends UsersRepository {
   async findById(id: string): Promise<DBUser | undefined> {
     const db = await openOrCreateDB();
 
-    return new Promise((resolve, reject) => {
+    return new Promise<DBUser>((resolve, reject) => {
       const req = db.transaction(['users']).objectStore('users').get(id);
-      req.onerror = (err: any) => reject(err);
-      req.onsuccess = (event: any) => resolve(event.target.result as DBUser);
+      req.onerror = (e: any) => reject(e?.target?.error);
+      req.onsuccess = (e: any) => resolve(e?.target?.result);
     });
   }
 
   async findByEmail(email: string): Promise<DBUser | undefined> {
     const db = await openOrCreateDB();
 
-    return new Promise((resolve, reject) => {
+    return new Promise<DBUser>((resolve, reject) => {
       const req = db.transaction(['users']).objectStore('users').index('email').get(email);
-      req.onerror = (err: any) => reject(err);
-      req.onsuccess = (event: any) => resolve(event.target.result as DBUser);
+      req.onerror = (e: any) => reject(e?.target?.error);
+      req.onsuccess = (e: any) => resolve(e?.target?.result);
     });
   }
 
@@ -37,7 +37,7 @@ export class UsersIndexedDBRepository extends UsersRepository {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(['users'], 'readwrite');
       transaction.objectStore('users').add(user);
-      transaction.onerror = reject;
+      transaction.onerror = (e: any) => reject(e?.target?.error);
       transaction.oncomplete = () => resolve(user);
     });
   }
