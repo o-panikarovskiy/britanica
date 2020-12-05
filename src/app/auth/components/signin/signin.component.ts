@@ -1,19 +1,22 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
 import { AppError } from 'src/app/core/models/app-error';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Destroyer } from 'src/app/core/utils/destroyer';
 
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
 })
-export class SigninComponent {
+export class SigninComponent extends Destroyer {
   public readonly form: FormGroup;
   public isSending = false;
   public serverError: AppError | undefined;
 
   constructor(private readonly authService: AuthService) {
+    super();
     this.form = new FormGroup({
       username: new FormControl(void 0, [Validators.required]),
       password: new FormControl(void 0, [Validators.required]),
@@ -30,6 +33,7 @@ export class SigninComponent {
 
     this.authService
       .signIn(this.form.value)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         () => {
           this.authService.goToPageAfterLogin();

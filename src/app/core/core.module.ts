@@ -14,7 +14,7 @@ import { usersRepositoryFactory } from 'src/app/core/services/users-repository.f
 
 @NgModule({
   providers: [
-    AuthGuard, //
+    AuthGuard,
     AuthService,
     { provide: UsersRepository, useFactory: usersRepositoryFactory },
     { provide: NotesRepository, useFactory: notesRepositoryFactory },
