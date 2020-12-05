@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { SessionRepository } from 'src/app/core/abstract/session.repository';
 import { SessionStrategy } from 'src/app/core/abstract/session.stategy';
+import { createGuid } from 'src/app/core/utils/crypto-utils';
 import { environment } from 'src/environments/environment';
 
 type StringAny = { [key: string]: any };
@@ -13,13 +15,27 @@ type CookieOptions = StringAny & {
 export class SessionCookieStrategy extends SessionStrategy {
   private readonly env = environment;
 
+  constructor(private readonly repository: SessionRepository) {
+    super();
+  }
+
   save = async (): Promise<void> => {
-    this.setCookie('britannica', 'secretEncryptedValue', { 'max-age': this.env.sessionMaxAge });
+    const id = createGuid();
+    const expDate = new Date();
+    expDate.setSeconds(expDate.getSeconds() + this.env.sessionMaxAge);
+
+    await this.repository.set(id, expDate);
+    this.setCookie('britannica', id, { 'max-age': this.env.sessionMaxAge });
   };
 
   check = async (): Promise<boolean> => {
-    const value = await this.get();
-    return value === 'secretEncryptedValue';
+    const id = await this.get();
+    if (!id) return false;
+
+    const expDate = await this.repository.get(id);
+    if (!expDate) return false;
+
+    return expDate.getTime() >= Date.now();
   };
 
   get = async (): Promise<string | undefined> => {
@@ -27,7 +43,9 @@ export class SessionCookieStrategy extends SessionStrategy {
   };
 
   destroy = async (): Promise<void> => {
+    const id = await this.get();
     this.setCookie('britannica', '', { 'max-age': -1 });
+    if (id) return this.repository.delete(id);
   };
 
   private setCookie = (name: string, value: string, options?: CookieOptions) => {

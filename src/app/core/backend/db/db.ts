@@ -12,6 +12,7 @@ export async function openOrCreateDB(): Promise<IDBDatabase> {
       users.createIndex('email', 'email', { unique: true });
 
       db.createObjectStore('notes', { keyPath: 'id' });
+      db.createObjectStore('sessions', { keyPath: 'id' });
     };
 
     openReq.onerror = (e: any) => reject(new AppError(e?.target?.error, 'DBError'));

@@ -1,12 +1,12 @@
 <mat-card class="wrap">
   <form [formGroup]="form" #frm="ngForm" (submit)="submit()" novalidate class="form">
-    <mat-form-field class="full-w">
+    <mat-form-field class="full-w" id="username">
       <mat-label>Username</mat-label>
       <input formControlName="username" matInput maxlength="1024" />
       <mat-error *ngIf="frm.submitted && form.get('username')?.hasError('required')">Username is required</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="full-w">
+    <mat-form-field class="full-w" id="pwd">
       <mat-label>Password</mat-label>
       <input formControlName="password" matInput type="password" autocomplete="new-password" maxlength="1024" />
       <mat-error *ngIf="frm.submitted && form.get('password')?.hasError('required')">Password is required</mat-error>
